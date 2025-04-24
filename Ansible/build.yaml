@@ -1,0 +1,27 @@
+---
+- name: Playbook to build our docker image
+  hosts: localhost
+  tasks:  
+   - name: remove existing bashscripts directory and ignore task if bashscripts folder is not there
+     ansible.builtin.shell:
+       cmd: sudo rm -r bashscripts
+     ignore_errors: yes    
+       
+   - name: create new bashscripts directory
+     ansible.builtin.shell:
+       cmd: sudo mkdir /home/ubuntu/bashscripts         
+
+   - name: clone bash scripts repo into server
+     ansible.builtin.shell:
+       cmd: sudo git clone https://github.com/sagarkakkalasworld/Day17.git
+       chdir: /home/ubuntu/bashscripts/
+
+   - name: giving ownership to build.sh and giving excecuting permissions to build.sh
+     ansible.builtin.shell:
+       cmd: sudo chown ubuntu build.sh && sudo chmod 744 build.sh
+       chdir: /home/ubuntu/bashscripts/Day17/Bash
+
+   - name: running script to make build
+     ansible.builtin.shell: 
+       cmd: ./build.sh
+       chdir: /home/ubuntu/bashscripts/Day17/Bash
