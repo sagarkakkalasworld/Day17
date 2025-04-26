@@ -4,7 +4,7 @@
   tasks:  
    - name: remove existing bashscripts directory and ignore task if bashscripts folder is not there
      ansible.builtin.shell:
-       cmd: sudo rm -r bashscripts
+       cmd: sudo rm -rf bashscripts
      ignore_errors: yes    
        
    - name: create new bashscripts directory
