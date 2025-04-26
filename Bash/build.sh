@@ -16,8 +16,10 @@ aws s3 cp --recursive build "s3://buildartifactoryreactmicrok8s/${current_date}/
 git_commit=$(sudo git rev-parse HEAD)
 sudo docker build -t react-microk8s:$git_commit -f golddockerfile .
 sudo docker tag react-microk8s:$git_commit sagarkakkalasworld/react-microk8s:$git_commit
-trivy image react-microk8s:$git_commit > image_vulnerability.txt
-echo "Please find the attached Trivy file file." | mutt -s "Image Vulnerability" -a image_vulnerability.txt -- sagar.kakkala@gmail.com
+sudo touch image_vulnerability.txt
+sudo chmod 777 image_vulnerability.txt
+sudo trivy image react-microk8s:$git_commit > image_vulnerability.txt
+#echo "Please find the attached Trivy file file." | mutt -s "Image Vulnerability" -a image_vulnerability.txt -- sagar.kakkala@gmail.com
 sudo docker push sagarkakkalasworld/react-microk8s:$git_commit
 ##the below lines of script are to store our git commit id tags in s3 bucket
 aws s3 rm s3://gitcommittagbucket/new_value.txt
