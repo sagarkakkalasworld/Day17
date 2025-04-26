@@ -14,7 +14,7 @@ aws s3api put-object --bucket buildartifactoryreactmicrok8s --key "${current_dat
 aws s3 cp --recursive build "s3://buildartifactoryreactmicrok8s/${current_date}/$(basename build)"
 ##the below lines of script are to have docker images with git commit id tags
 git_commit=$(sudo git rev-parse HEAD)
-sudo docker build -t react-microk8s -f golddockerfile .
+sudo docker build -t react-microk8s:$git_commit -f golddockerfile .
 sudo docker tag react-microk8s:$git_commit sagarkakkalasworld/react-microk8s:$git_commit
 trivy image react-microk8s:$git_commit > image_vulnerability.txt
 echo "Please find the attached Trivy file file." | mutt -s "Image Vulnerability" -a image_vulnerability.txt -- sagar.kakkala@gmail.com
